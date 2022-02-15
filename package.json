@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open /\" \"nodemon ./server/server.js\"",
+    "start": "nodemon ./server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -18,12 +19,16 @@
   },
   "homepage": "https://github.com/arishoham/solo-project#readme",
   "dependencies": {
-    "node-fetch": "^3.2.0",
+    "@mdi/font": "^6.5.95",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.7",
     "pg": "^8.7.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hot-loader": "^4.13.0",
-    "react-router": "^6.2.1",
     "react-router-dom": "^6.2.1"
   },
   "devDependencies": {

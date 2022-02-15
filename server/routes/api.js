@@ -1,36 +1,34 @@
 const express = require('express');
 
-const starWarsController = require('../controllers/starWarsController');
+const sessionController = require('../controllers/sessionController');
+const userController = require('../controllers/userController');
+const commentController = require('../controllers/commentController');
+const likeController = require('../controllers/likeController');
 
 const router = express.Router();
 
-router.get('/',
-  starWarsController.getCharacters,
+//get car info & comments
+router.get('/', commentController.getComments, 
   (req, res) => res.status(200).json(res.locals)
 );
 
-router.get('/species',
-  starWarsController.getSpecies,
-  (req, res) => res.status(200).json(res.locals)
-);
-
-router.get('/homeworld',
-  starWarsController.getHomeworld,
-  (req, res) => res.status(200).json(res.locals)
-);
-
-router.get('/film',
-  starWarsController.getFilm,
-  (req, res) => res.status(200).json(res.locals)
-);
-
-router.post('/character',
-  starWarsController.addCharacter,
+//add comment
+router.post('/comment', sessionController.isLoggedIn, commentController.addComment,
   (req, res) => res.status(200).json(req.body)
 );
 
-router.delete('/delete/:id',
-  starWarsController.deleteCharacter,
+//delete comment (verify it's the user's comment)
+router.delete('/comment/:id', sessionController.isLoggedIn, commentController.deleteComment,
+  (req, res) => res.status(200).send('comment deleted!')
+);
+
+//add a like (to a comment)
+router.post('/like',
+  (req, res) => res.status(200).json(res.locals)
+);
+
+//remove a like
+router.delete('/like',
   (req, res) => res.status(200).json(res.locals)
 );
 

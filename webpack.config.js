@@ -37,6 +37,18 @@ module.exports = {
         target: 'http://localhost:3000/',
         secure: false,
       },
+      '/login': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/logout': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/signup': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
     },
   },
   module: {
