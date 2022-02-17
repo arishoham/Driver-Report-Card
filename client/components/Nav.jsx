@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import Icon from '@mdi/react';
-import { mdiMenu } from '@mdi/js';
 import Signup from './Signup';
 import Login from './Login';
+import MenuIcon from '@mui/icons-material/Menu';
 
 const Nav = ({loggedIn, setLoggedIn}) => {
   const [account, setAccount] = useState(''); //signup or signin
@@ -92,10 +91,7 @@ const Nav = ({loggedIn, setLoggedIn}) => {
   return (
     <>
       <nav>
-        <Icon path={mdiMenu}
-          title="User Profile"
-          size={2}
-        />
+        <MenuIcon />
         <div id="title">Driver Report Card</div>
         {loggedIn === '' 
           ?  <div>

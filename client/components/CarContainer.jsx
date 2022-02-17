@@ -6,12 +6,11 @@ import AddComment from './AddComment';
 
 function CarContainer({loggedIn}) {
   const [carNumber, setCarNumber] = useState('');
-  const [carState, setCarState] = useState('');
+  const [carState, setCarState] = useState(null);
   const [carData, setCarData] = useState({comments:[],carInfo:{}});
   const [comment, setComment] = useState('');
 
-  const handleSubmitLookup = (e) => {
-    e.preventDefault();
+  const handleSubmitLookup = () => {
     const url = `/api/?pn=${carNumber}&ps=${carState}`;
     fetch(url)
       .then(data => data.json())
@@ -59,6 +58,7 @@ function CarContainer({loggedIn}) {
 
   const handleSubmitComment = (e) => {
     e.preventDefault();
+    console.log(carData);
     const body = {
       comment: comment,
       plate_number: carData.carInfo.pn,
@@ -106,8 +106,8 @@ function CarContainer({loggedIn}) {
   const handleNumberChange = (e) => {
     setCarNumber(e.target.value.toUpperCase());
   };
-  const handleStateChange = (e) => {
-    setCarState(e.target.value.toUpperCase());
+  const handleStateChange = (e, newVal) => {
+    setCarState(newVal);
   };
   const handleCommentChange = (e) => {
     setComment(e.target.value);
