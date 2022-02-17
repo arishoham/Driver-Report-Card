@@ -10,7 +10,7 @@ const router = express.Router();
 
 //get car info & comments
 router.get('/', sessionController.isLoggedInOptional, commentController.getComments, 
-  carController.getInfo,
+  carController.getInfo, carController.getImage,
   (req, res) => res.status(200).json(res.locals)
 );
 

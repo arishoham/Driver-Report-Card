@@ -1,47 +1,11 @@
 import React, {useState} from 'react';
 
-export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [status, setStatus] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({username, password})
-    })
-      .then((data) => data.json())
-      .then((data) => {
-        console.log(data);
-        if(data.status) {
-          setUsername('');
-          setPassword('');
-          setStatus('');
-          //Todo: Route user to site <--------------------------
-        } else {
-          setStatus('Incorrect username or password');
-        }
-      })
-      .catch((err) => console.log('ERR', err));
-  };
-
-  const handleChangeUsername = (e) => {
-    setUsername(e.target.value);
-  };
-
-  const handleChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
+export default function Login({handleSubmitLogin, handleChangeUsername, handleChangePassword, status}) {
 
   return (
     <main>
       <h2>Sign in!</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitLogin}>
         <label>
           username: 
           <input 

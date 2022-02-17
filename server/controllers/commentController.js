@@ -62,17 +62,22 @@ commentController.deleteComment = async (req, res, next) => {
     const { rows } = await db.query(sqlQuery,[id]);
     console.log(rows[0].username);
     if(rows[0].username === res.locals.username) { // check if the comment username is the same as the JWT
-      const sqlQueryDelete = `
-      DELETE FROM comments 
+      const sqlQueryDeleteLike = `
+      DELETE FROM Likes 
+      WHERE comment_id = $1;
+      `;
+      await db.query(sqlQueryDeleteLike,[id]);
+      const sqlQueryDeleteComment = `
+      DELETE FROM Comments 
       WHERE _id = $1;
       `;
-      await db.query(sqlQueryDelete,[id]);
+      await db.query(sqlQueryDeleteComment,[id]);
       next();
     }
     else return res.json('Not your comment to delete');
   } catch(err) {
     return next({
-      log: `Cannot add comment to database Err: ${err}`,
+      log: `Cannot delete comment from database Err: ${err}`,
       status: 400,
       message: { err: 'An error occurred' },
     });

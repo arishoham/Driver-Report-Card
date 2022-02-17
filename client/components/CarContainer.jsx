@@ -4,7 +4,7 @@ import CarInfo from './CarInfo';
 import CommentContainer from './CommentContainer';
 import AddComment from './AddComment';
 
-function CarContainer() {
+function CarContainer({loggedIn}) {
   const [carNumber, setCarNumber] = useState('');
   const [carState, setCarState] = useState('');
   const [carData, setCarData] = useState({comments:[],carInfo:{}});
@@ -12,7 +12,7 @@ function CarContainer() {
 
   const handleSubmitLookup = (e) => {
     e.preventDefault();
-    const url = `/api?pn=${carNumber}&ps=${carState}`;
+    const url = `/api/?pn=${carNumber}&ps=${carState}`;
     fetch(url)
       .then(data => data.json())
       .then(data => {
@@ -22,35 +22,39 @@ function CarContainer() {
   };
 
   const onLike = (_id,i) => {
-    fetch(`/api/like/${_id}`,
-      {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          'Content-Type': 'application/json'
-        },
+    if(loggedIn !== ''){
+      fetch(`/api/like/${_id}`,
+        {
+          method: 'POST', // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+      setCarData((carData) => {
+        const commentClone = {...carData.comments[i], like_username: '1', like_count: carData.comments[i].like_count + 1 };
+        const commentsClone = [...carData.comments];
+        commentsClone[i] = commentClone;
+        return {...carData, comments: commentsClone};
       });
-    setCarData((carData) => {
-      const commentClone = {...carData.comments[i], like_username: '1', like_count: carData.comments[i].like_count + 1 };
-      const commentsClone = [...carData.comments];
-      commentsClone[i] = commentClone;
-      return {...carData, comments: commentsClone};
-    });
+    }
   };
   
   const onUnLike = (_id,i) => {
-    fetch(`/api/like/${_id}`,
-      {
-        method: 'Delete', // *GET, POST, PUT, DELETE, etc.
-        headers: {
-          'Content-Type': 'application/json'
-        },
+    if(loggedIn !== ''){
+      fetch(`/api/like/${_id}`,
+        {
+          method: 'Delete', // *GET, POST, PUT, DELETE, etc.
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+      setCarData((carData) => {
+        const commentClone = {...carData.comments[i], like_username: '0', like_count: carData.comments[i].like_count - 1 };
+        const commentsClone = [...carData.comments];
+        commentsClone[i] = commentClone;
+        return {...carData, comments: commentsClone};
       });
-    setCarData((carData) => {
-      const commentClone = {...carData.comments[i], like_username: '0', like_count: carData.comments[i].like_count - 1 };
-      const commentsClone = [...carData.comments];
-      commentsClone[i] = commentClone;
-      return {...carData, comments: commentsClone};
-    });
+    }
   };
 
   const handleSubmitComment = (e) => {
@@ -70,21 +74,33 @@ function CarContainer() {
       })
       .then(data => data.json())
       .then(data => {
-        console.log(data);
-        handleSubmitLookup(e);
         setComment('');
+        const url = `/api/?pn=${data.plate_number}&ps=${data.plate_state}`;
+        fetch(url)
+          .then(data => data.json())
+          .then(data => {
+            setCarData(data);
+          });
       });
   };
 
   const deleteComment = (e,_id) => {
     fetch(`/api/comment/${_id}`,
       {
-        method: 'Delete', // *GET, POST, PUT, DELETE, etc.
+        method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
         headers: {
           'Content-Type': 'application/json'
         },
+      })
+      .then(_ => {
+        const {pn, ps} = carData.carInfo;
+        const url = `/api/?pn=${pn}&ps=${ps}`;
+        fetch(url)
+          .then(data => data.json())
+          .then(data => {
+            setCarData(data);
+          });
       });
-    handleSubmitLookup(e);
   };
 
   const handleNumberChange = (e) => {
@@ -99,28 +115,21 @@ function CarContainer() {
 
   return (
     <div>
-      <Search handleNumberChange = {handleNumberChange}
-        handleStateChange = {handleStateChange}
-        carNumber = {carNumber}
-        carState = {carState}
-        handleSubmit = {handleSubmitLookup}
+      <Search 
+        {...{handleNumberChange, handleStateChange, carNumber, carState, handleSubmitLookup}}
       />
       {Object.keys(carData.carInfo).length !== 0 &&
         <CarInfo carInfo={carData.carInfo}/>
       }
       {Object.keys(carData.carInfo).length !== 0 &&
       <AddComment 
-        comment={comment}
-        handleCommentChange={handleCommentChange}
-        handleSubmitComment={handleSubmitComment}
+        {...{comment, handleCommentChange, handleSubmitComment}}
       />
       }
       <CommentContainer 
         currentUser={carData.username}
         comments={carData.comments}
-        onLike={onLike}
-        onUnLike={onUnLike}
-        deleteComment={deleteComment}
+        {...{onLike, onUnLike, deleteComment}}
       />
     </div>
   );

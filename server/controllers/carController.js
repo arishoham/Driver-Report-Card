@@ -15,10 +15,6 @@ carController.getInfo = async (req, res, next) => {
     //Get vehicle name & image
     if(dom.querySelector('.vehicle-modal')) {
       res.locals.carInfo.name = dom.querySelector('.vehicle-modal').innerHTML;
-      //TODO: get car image
-      // const {yr } = res.locals.carInfo.name.split(' ');
-      // console.log(nameArr);
-      // res.locals.carInfo.img = `https://findbyplate.com/images/thumb/yr/honda/accord.jpg`
     } else {
       res.locals.carInfo.name = 'No Car Found';
     }
@@ -32,6 +28,18 @@ carController.getInfo = async (req, res, next) => {
       message: { err: 'An error occurred' },
     });
   }
+};
+
+
+//TODO: get car image
+// const {yr } = res.locals.carInfo.name.split(' ');
+// console.log(nameArr);
+// res.locals.carInfo.img = `https://findbyplate.com/images/thumb/yr/honda/accord.jpg`
+
+carController.getImage = (req, res, next) => {
+  const {pn, ps} = res.locals.carInfo;
+  res.locals.carInfo.img = `https://cdn.findbyplate.com/US/${ps}/${pn}.jpg`;
+  return next();
 };
 
 module.exports = carController;

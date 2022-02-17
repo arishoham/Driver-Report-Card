@@ -8,6 +8,9 @@ const CarInfo = ({carInfo}) => {
       {carInfo.pn}
       {' | '}
       {carInfo.ps}
+      <div>
+        <img src={carInfo.img} />
+      </div>
     </div>
   );
 };

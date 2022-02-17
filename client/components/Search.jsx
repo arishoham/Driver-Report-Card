@@ -1,9 +1,9 @@
 import React from 'react';
 
-function Search({carNumber, carState, handleNumberChange, handleStateChange, handleSubmit}) {
+function Search({carNumber, carState, handleNumberChange, handleStateChange, handleSubmitLookup}) {
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmitLookup}>
       <label>
           License Plate Number: 
         <input 
