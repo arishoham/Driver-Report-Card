@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Like from './Like';
 import Close from './Close';
-import {Box, ListItem, ListItemText, ListItemIcon, ListItemButton, IconButton, Typography, TextField, Button} from '@mui/material';
+import {Box, ListItem, ListItemText, ListItemIcon, Typography} from '@mui/material';
 
 const Comment = ({comment, created_on, username, deleteComment, currentUser, like_count, ...props}) => {
   const [style, setStyle] = useState({visibility: 'hidden'});
@@ -29,9 +29,18 @@ const Comment = ({comment, created_on, username, deleteComment, currentUser, lik
         {like_count}
       </ListItemIcon>
       <ListItemText
-        primary={comment}
+        primary={
+          <Typography
+            sx={{ display: 'inline' }}
+            component="span"
+            variant="body2"
+            color="text.primary"
+          >
+            {comment}
+          </Typography>
+        }
         secondary={
-          <React.Fragment>
+          <>
             <Typography
               sx={{ display: 'inline' }}
               component="span"
@@ -41,7 +50,7 @@ const Comment = ({comment, created_on, username, deleteComment, currentUser, lik
               {username}
             </Typography>
             {' - ' + (new Date(created_on)).toLocaleDateString()}
-          </React.Fragment>
+          </>
         }
       />
       <Close 

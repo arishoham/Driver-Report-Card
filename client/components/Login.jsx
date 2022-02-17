@@ -22,9 +22,9 @@ export default function Login({handleSubmitLogin, handleChangeUsername, handleCh
       variant="outlined"
       sx={{
         position: 'fixed',
-        bgcolor: 'white',
         zIndex: 100,
-        right: 0,
+        right: 20,
+        top: 80,
         maxWidth: 400
       }}
       ref={wrapperRef}

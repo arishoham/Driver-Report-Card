@@ -1,10 +1,12 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect,} from 'react';
 import Signup from './Signup';
 import Login from './Login';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Button, Toolbar, Typography, IconButton } from '@mui/material';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-const Nav = ({loggedIn, setLoggedIn, refreshComments}) => {
+const Nav = ({loggedIn, setLoggedIn, refreshComments, darkMode, whichTheme}) => {
   const [account, setAccount] = useState(''); //signup or signin
 
   const [username, setUsername] = useState('');
@@ -104,9 +106,14 @@ const Nav = ({loggedIn, setLoggedIn, refreshComments}) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div" 
+            sx={{ flexGrow: 1, cursor: 'pointer'}} 
+            onClick={()=>refreshComments(true)}>
           Driver Report Card
           </Typography>
+          <IconButton color="inherit" onClick={darkMode}>
+            {whichTheme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
           {loggedIn === '' 
             ?  <>
               <Button color="inherit" onClick={()=>setAccount('signup')}>Sign up</Button> {' '}
@@ -116,15 +123,15 @@ const Nav = ({loggedIn, setLoggedIn, refreshComments}) => {
             : <><Button color="inherit" onClick={handleLogout}>Log out</Button></>
           }
         </Toolbar>
+        { account === 'signup' && <Signup 
+          {...{handleSubmitSignup, handleChangeUsername, 
+            handleChangePassword, handleChangeEmail, status, setAccount}}
+        /> }
+        { account === 'login' && <Login 
+          {...{handleSubmitLogin, handleChangeUsername, 
+            handleChangePassword, status, setAccount}}
+        /> }
       </AppBar>
-      { account === 'signup' && <Signup 
-        {...{handleSubmitSignup, handleChangeUsername, 
-          handleChangePassword, handleChangeEmail, status, setAccount}}
-      /> }
-      { account === 'login' && <Login 
-        {...{handleSubmitLogin, handleChangeUsername, 
-          handleChangePassword, status, setAccount}}
-      /> }
     </>
   );
 };

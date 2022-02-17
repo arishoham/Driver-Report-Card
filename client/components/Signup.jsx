@@ -17,15 +17,15 @@ export default function Signup({handleSubmitSignup, handleChangeUsername, handle
       setAccount('');
     }
   };
-  
+
   return (
     <Card
       variant="outlined"
       sx={{
         position: 'fixed',
-        bgcolor: 'white',
         zIndex: 100,
-        right: 0,
+        right: 20,
+        top: 80,
         maxWidth: 400
       }}
       ref={wrapperRef}
