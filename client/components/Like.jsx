@@ -1,35 +1,28 @@
 import React from 'react';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import {ListItemIcon, IconButton} from '@mui/material';
 
-const Like = ({like_count, _id, onLike, onUnLike, userLike,i}) => {
+const Like = ({_id, onLike, onUnLike, userLike,i}) => {
   if(userLike == 0){
     return (
-      <>
-        {/* <Icon path={mdiThumbUpOutline}
-          title="like"
-          size={1}
-          onClick={() => onLike(_id,i)}
-        /> */}
-        <ThumbUpOutlinedIcon 
-          onClick={() => onLike(_id,i)}
-        />
-        {like_count}
-      </>
+      <IconButton variant="outlined"
+        aria-label="Like" 
+        component="span"
+        onClick={() => onLike(_id,i)}
+      >
+        <ThumbUpOutlinedIcon />
+      </IconButton>
     );
   } else {
     return(
-      <>
-        {/* <Icon path={mdiThumbUp}
-          title="like"
-          size={1}
-          onClick={() => onUnLike(_id,i)}
-        /> */}
-        <ThumbUpIcon 
-          onClick={() => onUnLike(_id,i)}
-        />
-        {like_count}
-      </>
+      <IconButton variant="outlined"
+        aria-label="Like" 
+        component="span"
+        onClick={() => onUnLike(_id,i)}
+      >
+        <ThumbUpIcon />
+      </IconButton>
     );
   }
 };

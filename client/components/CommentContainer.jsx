@@ -1,3 +1,4 @@
+import { List } from '@mui/material';
 import React from 'react';
 import Comment from './Comment';
 
@@ -14,9 +15,9 @@ const CommentContainer = ({comments, ...props}) => {
     {...props}
   />);
   return (
-    <div>
+    <List>
       {commentComponents}
-    </div>
+    </List>
   );
 };
 

@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import Signup from './Signup';
 import Login from './Login';
 import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Button, Toolbar, Typography, IconButton } from '@mui/material';
+import { end } from '@popperjs/core';
 
 const Nav = ({loggedIn, setLoggedIn}) => {
   const [account, setAccount] = useState(''); //signup or signin
@@ -90,18 +92,30 @@ const Nav = ({loggedIn, setLoggedIn}) => {
 
   return (
     <>
-      <nav>
-        <MenuIcon />
-        <div id="title">Driver Report Card</div>
-        {loggedIn === '' 
-          ?  <div>
-            <a onClick={()=>setAccount('signup')}>Sign up</a> |{' '}
-            <a onClick={()=>setAccount('login')}>Log in</a>
-          </div>
+      <AppBar>
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          Driver Report Card
+          </Typography>
+          {loggedIn === '' 
+            ?  <>
+              <Button color="inherit" onClick={()=>setAccount('signup')}>Sign up</Button> {' '}
+              <Button color="inherit" onClick={()=>setAccount('login')}>Log in</Button>
+            </>
 
-          : <div><a onClick={handleLogout}>Log out</a></div>
-        }
-      </nav>
+            : <><Button color="inherit" onClick={handleLogout}>Log out</Button></>
+          }
+        </Toolbar>
+      </AppBar>
       { account === 'signup' && <Signup 
         {...{handleSubmitSignup, handleChangeUsername, handleChangePassword, handleChangeEmail, status}}
       /> }

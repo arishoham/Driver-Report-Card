@@ -1,32 +1,55 @@
 import React, {useState} from 'react';
 import Like from './Like';
 import Close from './Close';
+import {Box, ListItem, ListItemText, ListItemIcon, ListItemButton, IconButton, Typography, TextField, Button} from '@mui/material';
 
-const Comment = ({comment, created_on, username, deleteComment, currentUser, ...props}) => {
+const Comment = ({comment, created_on, username, deleteComment, currentUser, like_count, ...props}) => {
   const [style, setStyle] = useState({visibility: 'hidden'});
   return (
-    <div className='comment'
+    <ListItem
+      className='comment'
+      disablePadding
       onMouseEnter={e => {
         if(currentUser === username) setStyle({visibility: 'visible'});
       }}
       onMouseLeave={e => {
         setStyle({visibility: 'hidden'});
       }}
+      sx={{
+        border: 1,
+        borderRadius: 2,
+        borderColor: 'text.disabled',
+        my: 1
+      }}
     >
+      <Like {...props}/>
+      <ListItemIcon 
+        sx={{minWidth: 40}}
+      >
+        {like_count}
+      </ListItemIcon>
+      <ListItemText
+        primary={comment}
+        secondary={
+          <React.Fragment>
+            <Typography
+              sx={{ display: 'inline' }}
+              component="span"
+              variant="body2"
+              color="text.primary"
+            >
+              {username}
+            </Typography>
+            {' - ' + (new Date(created_on)).toLocaleDateString()}
+          </React.Fragment>
+        }
+      />
       <Close 
         style={style}
         deleteComment={deleteComment}
         _id={props._id}
       />
-      {comment}
-      <div>
-        <Like {...props}/>
-        {'  '}
-        {username}
-        {'  '}
-        {(new Date(created_on)).toLocaleDateString()}
-      </div>
-    </div>
+    </ListItem>
   );
 };
 

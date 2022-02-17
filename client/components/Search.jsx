@@ -8,15 +8,15 @@ import SearchIcon from '@mui/icons-material/Search';
 function Search({carNumber, carState, handleNumberChange, handleStateChange, handleSubmitLookup}) {
 
   return (
-    // <form onSubmit={handleSubmitLookup}>
     <Box
       id="search-form"
       component="form"
-      // sx={{
-      //   '& > :not(style)': { m: 1, width: '25ch' },
-      // }}
       noValidate
       autoComplete="off"
+      onSubmit={handleSubmitLookup}
+      sx={{
+        gap: 1
+      }}
     >
       <Autocomplete
         disablePortal
@@ -36,14 +36,13 @@ function Search({carNumber, carState, handleNumberChange, handleStateChange, han
         onChange={handleNumberChange}
       />
       <Button 
+        type="submit"
         variant="contained" 
         endIcon={<SearchIcon />}
-        onClick={handleSubmitLookup}
       >
         Search
       </Button>
     </Box>
-    // </form>
   );
 }
 
