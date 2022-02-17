@@ -3,9 +3,8 @@ import Signup from './Signup';
 import Login from './Login';
 import MenuIcon from '@mui/icons-material/Menu';
 import { AppBar, Box, Button, Toolbar, Typography, IconButton } from '@mui/material';
-import { end } from '@popperjs/core';
 
-const Nav = ({loggedIn, setLoggedIn}) => {
+const Nav = ({loggedIn, setLoggedIn, refreshComments}) => {
   const [account, setAccount] = useState(''); //signup or signin
 
   const [username, setUsername] = useState('');
@@ -31,6 +30,7 @@ const Nav = ({loggedIn, setLoggedIn}) => {
           setUsername('');
           setPassword('');
           setStatus('');
+          refreshComments();
         } else {
           setStatus('Incorrect username or password');
         }
@@ -56,6 +56,7 @@ const Nav = ({loggedIn, setLoggedIn}) => {
           setPassword('');
           setEmail('');
           setStatus('');
+          refreshComments();
         } else {
           setStatus('Username or email already used');
         }
@@ -90,6 +91,15 @@ const Nav = ({loggedIn, setLoggedIn}) => {
     setLoggedIn('');
   };
 
+  const handleBlur = (e) => {
+    // if the blur was because of outside focus
+    // currentTarget is the parent element, relatedTarget is the clicked element
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      console.log(e);
+      setAccount('');
+    }
+  };
+
   return (
     <>
       <AppBar>
@@ -117,10 +127,12 @@ const Nav = ({loggedIn, setLoggedIn}) => {
         </Toolbar>
       </AppBar>
       { account === 'signup' && <Signup 
-        {...{handleSubmitSignup, handleChangeUsername, handleChangePassword, handleChangeEmail, status}}
+        {...{handleSubmitSignup, handleChangeUsername, 
+          handleChangePassword, handleChangeEmail, status, handleBlur}}
       /> }
       { account === 'login' && <Login 
-        {...{handleSubmitLogin, handleChangeUsername, handleChangePassword, status}}
+        {...{handleSubmitLogin, handleChangeUsername, 
+          handleChangePassword, status, handleBlur}}
       /> }
     </>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Typography, TextField, Button, Card, CardContent} from '@mui/material';
 
-export default function Login({handleSubmitLogin, handleChangeUsername, handleChangePassword, status}) {
+export default function Login({handleSubmitLogin, handleChangeUsername, handleChangePassword, status, handleBlur}) {
 
   return (
     <Card
@@ -12,7 +12,9 @@ export default function Login({handleSubmitLogin, handleChangeUsername, handleCh
         zIndex: 100,
         right: 0,
         maxWidth: 400
-      }}>
+      }}
+      // onBlur={handleBlur}
+    >
       <CardContent>
         <Box
           component="form"
@@ -32,7 +34,7 @@ export default function Login({handleSubmitLogin, handleChangeUsername, handleCh
             label="Username"
             name="Username"
             autoComplete="username"
-            autoFocus
+            // autoFocus
             onChange={handleChangeUsername}
           />
           <TextField

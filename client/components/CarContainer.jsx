@@ -4,21 +4,23 @@ import CarInfo from './CarInfo';
 import CommentContainer from './CommentContainer';
 import AddComment from './AddComment';
 
-function CarContainer({loggedIn}) {
+function CarContainer({loggedIn, carData, setCarData, refreshComments}) {
   const [carNumber, setCarNumber] = useState('');
   const [carState, setCarState] = useState(null);
-  //For development (switch car data) ->
-  // const [carData, setCarData] = useState(dev);
-  const [carData, setCarData] = useState({comments:[],carInfo:{}});
   const [comment, setComment] = useState('');
   
-
+  //For development (switch car data) ->
+  // const [carData, setCarData] = useState(dev);
+  // const [carData, setCarData] = useState({comments:[],carInfo:{}});
+  
+  
   const handleSubmitLookup = (e) => {
     e.preventDefault();
     const url = `/api/?pn=${carNumber}&ps=${carState}`;
     fetch(url)
       .then(data => data.json())
       .then(data => {
+        console.log(data);
         setCarData(data);
       });
   };
@@ -77,12 +79,7 @@ function CarContainer({loggedIn}) {
       .then(data => data.json())
       .then(data => {
         setComment('');
-        const url = `/api/?pn=${data.plate_number}&ps=${data.plate_state}`;
-        fetch(url)
-          .then(data => data.json())
-          .then(data => {
-            setCarData(data);
-          });
+        refreshComments();
       });
   };
 
@@ -95,13 +92,7 @@ function CarContainer({loggedIn}) {
         },
       })
       .then(_ => {
-        const {pn, ps} = carData.carInfo;
-        const url = `/api/?pn=${pn}&ps=${ps}`;
-        fetch(url)
-          .then(data => data.json())
-          .then(data => {
-            setCarData(data);
-          });
+        refreshComments();
       });
   };
 

@@ -2,7 +2,7 @@ import React, { useState} from 'react';
 import {Box, Typography, TextField, Button, Card, CardContent} from '@mui/material';
 import { maxWidth } from '@mui/system';
 
-export default function Signup({handleSubmitSignup, handleChangeUsername, handleChangePassword, handleChangeEmail, status}) {
+export default function Signup({handleSubmitSignup, handleChangeUsername, handleChangePassword, handleChangeEmail, status, handleBlur}) {
 
   return (
     <Card
@@ -13,7 +13,9 @@ export default function Signup({handleSubmitSignup, handleChangeUsername, handle
         zIndex: 100,
         right: 0,
         maxWidth: 400
-      }}>
+      }}
+      // onBlur={handleBlur}
+    >
       <CardContent>
         <Box
           component="form"
@@ -33,7 +35,7 @@ export default function Signup({handleSubmitSignup, handleChangeUsername, handle
             label="Username"
             name="Username"
             autoComplete="username"
-            autoFocus
+            // autoFocus
             onChange={handleChangeUsername}
           />
           <TextField
