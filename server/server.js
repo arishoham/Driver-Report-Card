@@ -17,26 +17,34 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 /**
- * handle requests for static files
- */
-app.use(express.static(path.resolve(__dirname, '../client')));
-
-/**
  * define route handlers
  */
-app.get('/',
-  (req,res) => res.sendFile(path.resolve('client','index.html'))
-);
+// const sessionController = require('./controllers/sessionController');
+
+app.get('/',(req,res) => {
+  return res.sendFile(path.resolve('dist','index.html'));
+});
+
+app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
+// app.get('/dist', (req, res) => {
+//   return res.sendFile(path.resolve('dist','bundle.js'));
+// });
 
 app.use('/api', apiRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
-app.get('/logout', 
-  (req, res) => res.redirect('/')
+app.get('/logout',
+  (req, res) => {
+    return res
+      .clearCookie('access_token')
+      .redirect('/');
+  }
 );
 
+app.use(express.static(path.resolve(__dirname, '../client')));
+
 // catch-all route handler for any requests to an unknown route
-app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
+// app.get('/*', (req, res) => res.redirect('/'));
 
 /**
  * express error handler

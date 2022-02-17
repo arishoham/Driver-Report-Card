@@ -1,14 +1,16 @@
 const express = require('express');
 
 const sessionController = require('../controllers/sessionController');
-const userController = require('../controllers/userController');
+// const userController = require('../controllers/userController');
 const commentController = require('../controllers/commentController');
 const likeController = require('../controllers/likeController');
+const carController = require('../controllers/carController');
 
 const router = express.Router();
 
 //get car info & comments
-router.get('/', commentController.getComments, 
+router.get('/', sessionController.isLoggedInOptional, commentController.getComments, 
+  carController.getInfo,
   (req, res) => res.status(200).json(res.locals)
 );
 
@@ -23,12 +25,19 @@ router.delete('/comment/:id', sessionController.isLoggedIn, commentController.de
 );
 
 //add a like (to a comment)
-router.post('/like',
-  (req, res) => res.status(200).json(res.locals)
+router.post('/like/:id', sessionController.isLoggedIn, likeController.addLike,
+  (req, res) => {
+    return res.status(200).json({status: true});
+  }
 );
 
 //remove a like
-router.delete('/like',
+router.delete('/like/:id', sessionController.isLoggedIn, likeController.deleteLike,
+  (req, res) => res.status(200).json(res.locals)
+);
+
+//check if user is logged in
+router.get('/loggedin', sessionController.isLoggedInOptional,
   (req, res) => res.status(200).json(res.locals)
 );
 

@@ -10,12 +10,15 @@ commentController.getComments = async (req, res, next) => {
   try {
     const {pn, ps} = req.query;
     const sqlQuery = `
-    Select * FROM Comments
+    SELECT c.*, COUNT(l.username) filter (where l.username = $3) AS like_username FROM comments c
+    LEFT OUTER JOIN likes l
+      ON _id = comment_id
     WHERE plate_number = $1 AND plate_state = $2
-    ORDER BY created_on;
+    GROUP BY(c._id)
+    ORDER BY created_on DESC;
     `;
-    const { rows } = await db.query(sqlQuery,[pn, ps]);
-    res.locals = rows;
+    const { rows } = await db.query(sqlQuery,[pn, ps, res.locals.username]);
+    res.locals.comments = rows;
     next();
 
   } catch(err) {
@@ -66,7 +69,7 @@ commentController.deleteComment = async (req, res, next) => {
       await db.query(sqlQueryDelete,[id]);
       next();
     }
-    else return res.send('Not your comment to delete');
+    else return res.json('Not your comment to delete');
   } catch(err) {
     return next({
       log: `Cannot add comment to database Err: ${err}`,

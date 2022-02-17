@@ -1,13 +1,13 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import './stylesheets/styles.css';
+import CarContainer from './components/CarContainer';
+import Nav from './components/Nav';
 
-const App = props => {
+export default function App() {
+  
   return (
-    <div>test</div>
+    <div>
+      <Nav />
+      <CarContainer />
+    </div>
   );
-};
-
-App.propTypes = {};
-
-export default App;
+}

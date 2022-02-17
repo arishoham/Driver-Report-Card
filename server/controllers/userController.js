@@ -17,11 +17,12 @@ userController.addUser = async (req, res, next) => {
     VALUES ($1, $2, $3);
     `;
     try{ 
+      console.log([username, hashPass, email]);
       await db.query(sqlQuery, [username, hashPass, email]); 
       return next();
     }
     catch(err) {
-      res.send('username already used');
+      return res.json({status: false});
     }
   } catch(err) {
     return next({
@@ -41,10 +42,10 @@ userController.findUser = async (req, res, next) => {
     WHERE username = $1;
     `;
     const user = await db.query(sqlQuery, [username]);
-    if(!user.rows[0]) return res.send('not correct username');
+    if(!user.rows[0]) return res.json({status: false});
     const verify = await bcrypt.compare(password, user.rows[0].password);
     if(verify) return next();
-    else return res.send('not correct password');
+    else return res.json({status: false});
   } catch(err) {
     return next({
       log: `Cannot find user in database Err: ${err.message}`,

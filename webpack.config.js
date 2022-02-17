@@ -10,11 +10,11 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/',
+    publicPath: '/dist',
     filename: 'bundle.js',
   },
   devtool: 'eval-source-map',
-  mode: 'development',
+  mode: process.env.NODE_ENV,
   devServer: {
     // host: 'localhost',
     // port: 8080,
@@ -30,6 +30,10 @@ module.exports = {
     headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
       '/api/**': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/': {
         target: 'http://localhost:3000/',
         secure: false,
       },
@@ -61,9 +65,9 @@ module.exports = {
         },
       },
       {
-        test: /.(css|scss)$/,
+        test: /\.s?[ac]ss$/i,
         exclude: /node_modules/,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       }
     ],
   },

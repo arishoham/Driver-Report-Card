@@ -16,15 +16,35 @@ sessionController.isLoggedIn = (req, res, next) => {
       else {
         return res
           .clearCookie('access_token')
-          .send('not logged in');
+          .json('not logged in');
       }
     } else {
       return res
-        .send('not logged in');
+        .json('not logged in');
     }
   } catch(err) {
     return next({
       log: `Cannot check if user is logged in (sessionController) Err: ${err.message}`,
+      status: 400,
+      message: { err: 'An error occurred' },
+    });
+  }
+};
+
+sessionController.isLoggedInOptional = (req, res, next) => {
+  try {
+    if(req.cookies.access_token) {
+      var decoded = jwt.verify(req.cookies.access_token, process.env.SECRET_KEY);
+      if(decoded.loggedIn === true) {
+        res.locals.username = decoded.username;
+        return next();
+      }
+    }
+    res.locals.username = false;
+    return next();
+  } catch(err) {
+    return next({
+      log: `Cannot check if user is logged in (optional) Err: ${err.message}`,
       status: 400,
       message: { err: 'An error occurred' },
     });
@@ -45,13 +65,6 @@ sessionController.startSession = (req, res, next) => {
       message: { err: 'An error occurred' },
     });
   }
-};
-
-//remove session from the database
-sessionController.endSession = (req, res, next) => {
-  return res
-    .clearCookie('access_token')
-    .redirect('/');
 };
 
 module.exports = sessionController;
