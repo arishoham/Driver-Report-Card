@@ -22,12 +22,29 @@ nav {
 #plate-img {
   border: 2px solid gray;
   border-radius: 10px;
+  max-width: 50vw;
 }
 
 .account {
   background-color: white;
 }
 
-// .comment {
-//   border: 1px solid black;
-// }
+/* iPads (portrait and landscape) ----------- */
+@media only screen and 
+(max-device-width : 900px) {
+  #car-info{
+    flex-direction: column;
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen 
+and (min-width : 1010px) {
+  #app {
+    width: 1010px;
+  }
+  body {
+    display: flex;
+    justify-content: center;
+  }
+}

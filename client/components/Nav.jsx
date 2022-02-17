@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import Signup from './Signup';
 import Login from './Login';
 import MenuIcon from '@mui/icons-material/Menu';
-import { AppBar, Box, Button, Toolbar, Typography, IconButton } from '@mui/material';
+import { AppBar, Button, Toolbar, Typography, IconButton } from '@mui/material';
 
 const Nav = ({loggedIn, setLoggedIn, refreshComments}) => {
   const [account, setAccount] = useState(''); //signup or signin
@@ -91,15 +91,6 @@ const Nav = ({loggedIn, setLoggedIn, refreshComments}) => {
     setLoggedIn('');
   };
 
-  const handleBlur = (e) => {
-    // if the blur was because of outside focus
-    // currentTarget is the parent element, relatedTarget is the clicked element
-    if (!e.currentTarget.contains(e.relatedTarget)) {
-      console.log(e);
-      setAccount('');
-    }
-  };
-
   return (
     <>
       <AppBar>
@@ -128,11 +119,11 @@ const Nav = ({loggedIn, setLoggedIn, refreshComments}) => {
       </AppBar>
       { account === 'signup' && <Signup 
         {...{handleSubmitSignup, handleChangeUsername, 
-          handleChangePassword, handleChangeEmail, status, handleBlur}}
+          handleChangePassword, handleChangeEmail, status, setAccount}}
       /> }
       { account === 'login' && <Login 
         {...{handleSubmitLogin, handleChangeUsername, 
-          handleChangePassword, status, handleBlur}}
+          handleChangePassword, status, setAccount}}
       /> }
     </>
   );

@@ -1,9 +1,23 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import {Box, Typography, TextField, Button, Card, CardContent} from '@mui/material';
 import { maxWidth } from '@mui/system';
 
-export default function Signup({handleSubmitSignup, handleChangeUsername, handleChangePassword, handleChangeEmail, status, handleBlur}) {
+export default function Signup({handleSubmitSignup, handleChangeUsername, handleChangePassword, handleChangeEmail, status, setAccount}) {
+  const wrapperRef = useRef(null);
 
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, false);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setAccount('');
+    }
+  };
+  
   return (
     <Card
       variant="outlined"
@@ -14,7 +28,7 @@ export default function Signup({handleSubmitSignup, handleChangeUsername, handle
         right: 0,
         maxWidth: 400
       }}
-      // onBlur={handleBlur}
+      ref={wrapperRef}
     >
       <CardContent>
         <Box

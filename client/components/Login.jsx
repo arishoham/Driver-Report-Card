@@ -1,7 +1,21 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {Box, Typography, TextField, Button, Card, CardContent} from '@mui/material';
 
-export default function Login({handleSubmitLogin, handleChangeUsername, handleChangePassword, status, handleBlur}) {
+export default function Login({handleSubmitLogin, handleChangeUsername, handleChangePassword, status, setAccount}) {
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, false);
+    return () => {
+      document.removeEventListener('click', handleClickOutside, false);
+    };
+  }, []);
+
+  const handleClickOutside = event => {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      setAccount('');
+    }
+  };
 
   return (
     <Card
@@ -13,6 +27,7 @@ export default function Login({handleSubmitLogin, handleChangeUsername, handleCh
         right: 0,
         maxWidth: 400
       }}
+      ref={wrapperRef}
       // onBlur={handleBlur}
     >
       <CardContent>
