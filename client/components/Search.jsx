@@ -17,7 +17,7 @@ function Search({carNumber, carState, handleNumberChange, handleStateChange, han
       // }}
       noValidate
       autoComplete="off"
-    >
+    > 
       <Autocomplete
         disablePortal
         id="state_number"
