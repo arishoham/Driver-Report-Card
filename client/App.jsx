@@ -7,7 +7,7 @@ import Nav from './components/Nav';
 export default function App() {
   const [loggedIn, setLoggedIn] = useState('');
   const [carData, setCarData] = useState({comments:[],carInfo:{}});
-  const [mode, setMode] = useState('dark');
+  const [mode, setMode] = useState('light');
   
   const refreshComments = (homepage = false) => {
     if(homepage) setCarData({comments:[],carInfo:{}});
