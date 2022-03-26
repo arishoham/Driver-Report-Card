@@ -11,6 +11,7 @@ export default function App() {
   
   const refreshComments = (homepage = false) => {
     if(homepage) setCarData({comments:[],carInfo:{}});
+    else if(!('pn' in carData.carInfo)) return;
     else {
       const {pn, ps} = carData.carInfo;
       const url = `/api/?pn=${pn}&ps=${ps}`;
