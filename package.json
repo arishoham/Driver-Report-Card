@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open /\" \"nodemon ./server/server.js\"",
+    "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open /\" \"cross-env NODE_ENV=development nodemon ./server/server.js\"",
     "start": "nodemon ./server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -42,6 +42,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^7.0.0",
     "cross-env": "^7.0.3",
     "css-loader": "^6.6.0",
@@ -49,6 +50,7 @@
     "eslint-plugin-react": "^7.28.0",
     "html-webpack-plugin": "^5.5.0",
     "nodemon": "^2.0.15",
+    "prettier": "^2.6.1",
     "sass": "^1.49.7",
     "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",

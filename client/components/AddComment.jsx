@@ -1,15 +1,10 @@
 import React from 'react';
-import {Box, InputAdornment, IconButton, TextField} from '@mui/material';
+import { Box, InputAdornment, IconButton, TextField } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 
-const AddComment = ({comment, handleCommentChange, handleSubmitComment}) => {
+const AddComment = ({ comment, handleCommentChange, handleSubmitComment }) => {
   return (
-    <Box
-      component="form"
-      noValidate
-      autoComplete="off"
-      id="add-comment-form"
-    >
+    <Box component="form" noValidate autoComplete="off" id="add-comment-form">
       <TextField
         id="add-comment"
         label="Comment"
@@ -20,17 +15,18 @@ const AddComment = ({comment, handleCommentChange, handleSubmitComment}) => {
         sx={{ width: 1 }}
         InputProps={{
           endAdornment: (
-            <InputAdornment position='end'>
-              <IconButton 
+            <InputAdornment position="end">
+              <IconButton
                 onClick={handleSubmitComment}
                 type="submit"
-                color="primary" 
-                aria-label="upload picture" 
-                component="span">
+                color="primary"
+                aria-label="upload picture"
+                component="span"
+              >
                 <SendIcon />
               </IconButton>
             </InputAdornment>
-          )
+          ),
         }}
       />
     </Box>

@@ -7,22 +7,21 @@ const sessionController = {};
 //Check if user is already logged in
 sessionController.isLoggedIn = (req, res, next) => {
   try {
-    if(req.cookies.access_token) {
-      var decoded = jwt.verify(req.cookies.access_token, process.env.SECRET_KEY);
-      if(decoded.loggedIn === true) {
+    if (req.cookies.access_token) {
+      var decoded = jwt.verify(
+        req.cookies.access_token,
+        process.env.SECRET_KEY
+      );
+      if (decoded.loggedIn === true) {
         res.locals.username = decoded.username;
         return next();
-      }
-      else {
-        return res
-          .clearCookie('access_token')
-          .json('not logged in');
+      } else {
+        return res.clearCookie('access_token').json('not logged in');
       }
     } else {
-      return res
-        .json('not logged in');
+      return res.json('not logged in');
     }
-  } catch(err) {
+  } catch (err) {
     return next({
       log: `Cannot check if user is logged in (sessionController) Err: ${err.message}`,
       status: 400,
@@ -33,16 +32,19 @@ sessionController.isLoggedIn = (req, res, next) => {
 
 sessionController.isLoggedInOptional = (req, res, next) => {
   try {
-    if(req.cookies.access_token) {
-      var decoded = jwt.verify(req.cookies.access_token, process.env.SECRET_KEY);
-      if(decoded.loggedIn === true) {
+    if (req.cookies.access_token) {
+      var decoded = jwt.verify(
+        req.cookies.access_token,
+        process.env.SECRET_KEY
+      );
+      if (decoded.loggedIn === true) {
         res.locals.username = decoded.username;
         return next();
       }
     }
     res.locals.username = false;
     return next();
-  } catch(err) {
+  } catch (err) {
     return next({
       log: `Cannot check if user is logged in (optional) Err: ${err.message}`,
       status: 400,
@@ -54,11 +56,14 @@ sessionController.isLoggedInOptional = (req, res, next) => {
 //add session to the database
 sessionController.startSession = (req, res, next) => {
   try {
-    const {username} = req.body;
-    var token = jwt.sign({ username: username, loggedIn: true }, process.env.SECRET_KEY);
-    res.cookie('access_token', token, {httpOnly: true});
+    const { username } = req.body;
+    var token = jwt.sign(
+      { username: username, loggedIn: true },
+      process.env.SECRET_KEY
+    );
+    res.cookie('access_token', token, { httpOnly: true });
     return next();
-  } catch(err) {
+  } catch (err) {
     return next({
       log: `Cannot start session Err: ${err.message}`,
       status: 400,

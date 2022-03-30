@@ -1,4 +1,4 @@
-import React, {useState, useEffect,} from 'react';
+import React, { useState, useEffect } from 'react';
 import Signup from './Signup';
 import Login from './Login';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -6,7 +6,13 @@ import { AppBar, Button, Toolbar, Typography, IconButton } from '@mui/material';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 
-const Nav = ({loggedIn, setLoggedIn, refreshComments, darkMode, whichTheme}) => {
+const Nav = ({
+  loggedIn,
+  setLoggedIn,
+  refreshComments,
+  darkMode,
+  whichTheme,
+}) => {
   const [account, setAccount] = useState(''); //signup or signin
 
   const [username, setUsername] = useState('');
@@ -19,14 +25,14 @@ const Nav = ({loggedIn, setLoggedIn, refreshComments, darkMode, whichTheme}) => 
     fetch('/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({username, password})
+      body: JSON.stringify({ username, password }),
     })
       .then((data) => data.json())
       .then((data) => {
         console.log(data);
-        if(data.status) {
+        if (data.status) {
           setAccount('');
           setLoggedIn(username);
           setUsername('');
@@ -45,13 +51,13 @@ const Nav = ({loggedIn, setLoggedIn, refreshComments, darkMode, whichTheme}) => 
     fetch('/signup', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({username, password, email})
+      body: JSON.stringify({ username, password, email }),
     })
       .then((data) => data.json())
       .then((data) => {
-        if(data.status) {
+        if (data.status) {
           setAccount('');
           setLoggedIn(username);
           setUsername('');
@@ -80,9 +86,9 @@ const Nav = ({loggedIn, setLoggedIn, refreshComments, darkMode, whichTheme}) => 
 
   useEffect(() => {
     fetch('/api/loggedin')
-      .then(data => data.json())
-      .then(data => {
-        if(data.username) setLoggedIn(data.username);
+      .then((data) => data.json())
+      .then((data) => {
+        if (data.username) setLoggedIn(data.username);
         else setLoggedIn('');
       });
   }, []);
@@ -94,45 +100,69 @@ const Nav = ({loggedIn, setLoggedIn, refreshComments, darkMode, whichTheme}) => 
   };
 
   return (
-    <>
-      <AppBar>
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" 
-            sx={{ flexGrow: 1, cursor: 'pointer'}} 
-            onClick={()=>refreshComments(true)}>
+    <AppBar>
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Typography
+          variant="h6"
+          component="div"
+          sx={{ flexGrow: 1, cursor: 'pointer' }}
+          onClick={() => refreshComments(true)}
+        >
           Driver Report Card
-          </Typography>
-          <IconButton color="inherit" onClick={darkMode}>
-            {whichTheme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
-          {loggedIn === '' 
-            ?  <>
-              <Button color="inherit" onClick={()=>setAccount('signup')}>Sign up</Button> {' '}
-              <Button color="inherit" onClick={()=>setAccount('login')}>Log in</Button>
-            </>
-
-            : <><Button color="inherit" onClick={handleLogout}>Log out</Button></>
-          }
-        </Toolbar>
-        { account === 'signup' && <Signup 
-          {...{handleSubmitSignup, handleChangeUsername, 
-            handleChangePassword, handleChangeEmail, status, setAccount}}
-        /> }
-        { account === 'login' && <Login 
-          {...{handleSubmitLogin, handleChangeUsername, 
-            handleChangePassword, status, setAccount}}
-        /> }
-      </AppBar>
-    </>
+        </Typography>
+        <IconButton color="inherit" onClick={darkMode}>
+          {whichTheme === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+        </IconButton>
+        {loggedIn === '' ? (
+          <>
+            <Button color="inherit" onClick={() => setAccount('signup')}>
+              Sign up
+            </Button>{' '}
+            <Button color="inherit" onClick={() => setAccount('login')}>
+              Log in
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button color="inherit" onClick={handleLogout}>
+              Log out
+            </Button>
+          </>
+        )}
+      </Toolbar>
+      {account === 'signup' && (
+        <Signup
+          {...{
+            handleSubmitSignup,
+            handleChangeUsername,
+            handleChangePassword,
+            handleChangeEmail,
+            status,
+            setAccount,
+          }}
+        />
+      )}
+      {account === 'login' && (
+        <Login
+          {...{
+            handleSubmitLogin,
+            handleChangeUsername,
+            handleChangePassword,
+            status,
+            setAccount,
+          }}
+        />
+      )}
+    </AppBar>
   );
 };
 

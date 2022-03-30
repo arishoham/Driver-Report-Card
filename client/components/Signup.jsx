@@ -1,8 +1,21 @@
-import React, { useState, useEffect, useRef} from 'react';
-import {Box, Typography, TextField, Button, Card, CardContent} from '@mui/material';
-import { maxWidth } from '@mui/system';
+import React, { useEffect, useRef } from 'react';
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Card,
+  CardContent,
+} from '@mui/material';
 
-export default function Signup({handleSubmitSignup, handleChangeUsername, handleChangePassword, handleChangeEmail, status, setAccount}) {
+export default function Signup({
+  handleSubmitSignup,
+  handleChangeUsername,
+  handleChangePassword,
+  handleChangeEmail,
+  status,
+  setAccount,
+}) {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
@@ -12,7 +25,7 @@ export default function Signup({handleSubmitSignup, handleChangeUsername, handle
     };
   }, []);
 
-  const handleClickOutside = event => {
+  const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       setAccount('');
     }
@@ -26,7 +39,7 @@ export default function Signup({handleSubmitSignup, handleChangeUsername, handle
         zIndex: 100,
         right: 20,
         top: 80,
-        maxWidth: 400
+        maxWidth: 400,
       }}
       ref={wrapperRef}
     >
@@ -39,7 +52,7 @@ export default function Signup({handleSubmitSignup, handleChangeUsername, handle
           id="signup-form"
         >
           <Typography component="h1" variant="h5">
-          Sign up
+            Sign up
           </Typography>
           <TextField
             margin="normal"
@@ -74,14 +87,10 @@ export default function Signup({handleSubmitSignup, handleChangeUsername, handle
             onChange={handleChangePassword}
           />
           <div>{status}</div>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
             Sign up
           </Button>
-        </Box >
+        </Box>
       </CardContent>
     </Card>
   );

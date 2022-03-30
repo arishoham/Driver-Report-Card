@@ -1,25 +1,27 @@
 import React from 'react';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import {ListItemIcon, IconButton} from '@mui/material';
+import { IconButton } from '@mui/material';
 
-const Like = ({_id, onLike, onUnLike, userLike,i}) => {
-  if(userLike == 0){
+const Like = ({ _id, onLike, onUnLike, userLike, i }) => {
+  if (userLike == 0) {
     return (
-      <IconButton variant="outlined"
-        aria-label="Like" 
+      <IconButton
+        variant="outlined"
+        aria-label="Like"
         component="span"
-        onClick={() => onLike(_id,i)}
+        onClick={() => onLike(_id, i)}
       >
         <ThumbUpOutlinedIcon />
       </IconButton>
     );
   } else {
-    return(
-      <IconButton variant="outlined"
-        aria-label="Like" 
+    return (
+      <IconButton
+        variant="outlined"
+        aria-label="Like"
         component="span"
-        onClick={() => onUnLike(_id,i)}
+        onClick={() => onUnLike(_id, i)}
       >
         <ThumbUpIcon />
       </IconButton>

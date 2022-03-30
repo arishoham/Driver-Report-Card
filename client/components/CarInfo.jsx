@@ -1,11 +1,12 @@
 import React from 'react';
-import {Box, Typography} from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-const CarInfo = ({carInfo}) => {
+const CarInfo = ({ carInfo }) => {
   return (
     <Box
       id="car-info"
-      sx={{ display: 'flex',
+      sx={{
+        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
@@ -13,13 +14,11 @@ const CarInfo = ({carInfo}) => {
         my: 2,
       }}
     >
-      <img src={carInfo.img} 
-        id='plate-img'
-      />
-
+      <img src={carInfo.img} id="plate-img" />
       <Typography
         component="h3"
-        sx= {{fontWeight: 'bold',
+        sx={{
+          fontWeight: 'bold',
           mx: 0.5,
           fontSize: 40,
           color: 'text.primary',

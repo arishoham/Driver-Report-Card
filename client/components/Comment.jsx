@@ -1,33 +1,42 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Like from './Like';
 import Close from './Close';
-import {Box, ListItem, ListItemText, ListItemIcon, Typography} from '@mui/material';
+import {
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+  Typography,
+} from '@mui/material';
 
-const Comment = ({comment, created_on, username, deleteComment, currentUser, like_count, ...props}) => {
-  const [style, setStyle] = useState({visibility: 'hidden'});
+const Comment = ({
+  comment,
+  created_on,
+  username,
+  deleteComment,
+  currentUser,
+  like_count,
+  ...props
+}) => {
+  const [style, setStyle] = useState({ visibility: 'hidden' });
   return (
     <ListItem
-      className='comment'
+      className="comment"
       disablePadding
-      onMouseEnter={e => {
-        if(currentUser === username) setStyle({visibility: 'visible'});
+      onMouseEnter={(e) => {
+        if (currentUser === username) setStyle({ visibility: 'visible' });
       }}
-      onMouseLeave={e => {
-        setStyle({visibility: 'hidden'});
+      onMouseLeave={(e) => {
+        setStyle({ visibility: 'hidden' });
       }}
       sx={{
         border: 1,
         borderRadius: 2,
         borderColor: 'text.disabled',
-        my: 1
+        my: 1,
       }}
     >
-      <Like {...props}/>
-      <ListItemIcon 
-        sx={{minWidth: 40}}
-      >
-        {like_count}
-      </ListItemIcon>
+      <Like {...props} />
+      <ListItemIcon sx={{ minWidth: 40 }}>{like_count}</ListItemIcon>
       <ListItemText
         primary={
           <Typography
@@ -49,15 +58,11 @@ const Comment = ({comment, created_on, username, deleteComment, currentUser, lik
             >
               {username}
             </Typography>
-            {' - ' + (new Date(created_on)).toLocaleDateString()}
+            {' - ' + new Date(created_on).toLocaleDateString()}
           </>
         }
       />
-      <Close 
-        style={style}
-        deleteComment={deleteComment}
-        _id={props._id}
-      />
+      <Close style={style} deleteComment={deleteComment} _id={props._id} />
     </ListItem>
   );
 };

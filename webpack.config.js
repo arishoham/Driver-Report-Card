@@ -2,6 +2,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: [
@@ -10,30 +11,29 @@ module.exports = {
   ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist',
+    publicPath: '/',
     filename: 'bundle.js',
   },
   devtool: 'eval-source-map',
   mode: process.env.NODE_ENV,
   devServer: {
+    // host: '0.0.0.0',
     // host: 'localhost',
-    // port: 8080,
-    // // match the output path
-    // contentBase: path.resolve(__dirname, 'dist'),
-    // enable HMR on the devServer
+    port: 8080,
     hot: true,
-    // match the output 'publicPath'
-    // publicPath: '/',
-    // fallback to root for other urls
     historyApiFallback: true,
+
+    static: {
+      // Required for Docker to work with dev server
+      // match the output path
+      directory: path.resolve(__dirname, 'dist'),
+      // match the output 'publicPath'
+      publicPath: '/',
+    },
 
     headers: { 'Access-Control-Allow-Origin': '*' },
     proxy: {
       '/api/**': {
-        target: 'http://localhost:3000/',
-        secure: false,
-      },
-      '/': {
         target: 'http://localhost:3000/',
         secure: false,
       },
@@ -74,6 +74,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './client/index.html',
     }),
+    new CleanWebpackPlugin(),
   ],
   resolve: {
     // Enable importing JS / JSX files without specifying their extension

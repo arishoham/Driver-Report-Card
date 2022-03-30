@@ -9,48 +9,34 @@ require('dotenv').config();
 
 const PORT = 3000;
 
-/**
- * handle parsing request body
- */
+// handle parsing request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-/**
- * define route handlers
- */
-// const sessionController = require('./controllers/sessionController');
 
-app.get('/',(req,res) => {
-  return res.sendFile(path.resolve('dist','index.html'));
-});
+//define route handlers
+if (process.env.NODE_ENV !== 'development') {
+  app.get('/', (req, res) => {
+    return res.sendFile(path.resolve('dist', 'index.html'));
+  });
 
-app.use('/dist', express.static(path.resolve(__dirname, '../dist')));
-// app.get('/dist', (req, res) => {
-//   return res.sendFile(path.resolve('dist','bundle.js'));
-// });
+  app.use('/', express.static(path.resolve(__dirname, '../dist')));
+}
 
 app.use('/api', apiRouter);
 app.use('/login', loginRouter);
 app.use('/signup', signupRouter);
-app.get('/logout',
-  (req, res) => {
-    return res
-      .clearCookie('access_token')
-      .redirect('/');
-  }
-);
+app.get('/logout', (req, res) => {
+  return res.clearCookie('access_token').redirect('/');
+});
 
 app.use(express.static(path.resolve(__dirname, '../client')));
 
 // catch-all route handler for any requests to an unknown route
-// app.get('/*', (req, res) => res.redirect('/'));
+app.get('/*', (req, res) => res.redirect('/'));
 
-/**
- * express error handler
- * @see https://expressjs.com/en/guide/error-handling.html#writing-error-handlers
- */
-
+//express error handler
 app.use((err, req, res, next) => {
   const defaultErr = {
     log: 'Express error handler caught unknown middleware error',
@@ -62,9 +48,7 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-/**
- * start server
- */
+// start server
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });

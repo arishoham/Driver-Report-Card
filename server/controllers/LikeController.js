@@ -8,20 +8,20 @@ const likeController = {};
 likeController.addLike = async (req, res, next) => {
   try {
     const id = req.params.id;
-    //add to like table, if successful increment count in comments table 
+    //add to like table, if successful increment count in comments table
     const sqlQueryLike = `
     INSERT INTO Likes (username, comment_id)
     VALUES ($1, $2);
     `;
-    await db.query(sqlQueryLike,[res.locals.username, id]);
+    await db.query(sqlQueryLike, [res.locals.username, id]);
     const sqlQueryComment = `
     Update Comments
     Set like_count = like_count + 1
     Where _id = $1
     `;
-    await db.query(sqlQueryComment,[id]);
+    await db.query(sqlQueryComment, [id]);
     next();
-  } catch(err) {
+  } catch (err) {
     return next({
       log: `Cannot like comment Err: ${err}`,
       status: 400,
@@ -34,24 +34,24 @@ likeController.addLike = async (req, res, next) => {
 likeController.deleteLike = async (req, res, next) => {
   try {
     const id = req.params.id;
-    //add to like table, if successful increment count in comments table 
+    //add to like table, if successful increment count in comments table
     const sqlQueryLike = `
     DELETE FROM Likes
     WHERE username = $1 AND comment_id = $2
     `;
-    const data = await db.query(sqlQueryLike,[res.locals.username, id]);
-    if(data.rowCount === 1) {
+    const data = await db.query(sqlQueryLike, [res.locals.username, id]);
+    if (data.rowCount === 1) {
       const sqlQueryComment = `
       Update Comments
       Set like_count = like_count - 1
       Where _id = $1
       `;
-      await db.query(sqlQueryComment,[id]);
+      await db.query(sqlQueryComment, [id]);
       next();
     } else {
-      throw('no like to unlike');
+      throw 'no like to unlike';
     }
-  } catch(err) {
+  } catch (err) {
     return next({
       log: `Cannot unlike comment Err: ${err}`,
       status: 400,

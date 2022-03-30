@@ -4,11 +4,10 @@ const db = require('../db/db');
 
 const commentController = {};
 
-
 //get all comments for a car
 commentController.getComments = async (req, res, next) => {
   try {
-    const {pn, ps} = req.query;
+    const { pn, ps } = req.query;
     const sqlQuery = `
     SELECT c.*, COUNT(l.username) filter (where l.username = $3) AS like_username FROM comments c
     LEFT OUTER JOIN likes l
@@ -17,11 +16,10 @@ commentController.getComments = async (req, res, next) => {
     GROUP BY(c._id)
     ORDER BY created_on DESC;
     `;
-    const { rows } = await db.query(sqlQuery,[pn, ps, res.locals.username]);
+    const { rows } = await db.query(sqlQuery, [pn, ps, res.locals.username]);
     res.locals.comments = rows;
     next();
-
-  } catch(err) {
+  } catch (err) {
     return next({
       log: `Cannot get comments from database Err: ${err}`,
       status: 400,
@@ -29,7 +27,6 @@ commentController.getComments = async (req, res, next) => {
     });
   }
 };
-
 
 //post a comment
 commentController.addComment = async (req, res, next) => {
@@ -39,9 +36,14 @@ commentController.addComment = async (req, res, next) => {
     INSERT INTO comments (comment, plate_number, plate_state, username)
     VALUES ($1, $2, $3, $4);
     `;
-    await db.query(sqlQuery,[comment, plate_number, plate_state, res.locals.username]);
+    await db.query(sqlQuery, [
+      comment,
+      plate_number,
+      plate_state,
+      res.locals.username,
+    ]);
     next();
-  } catch(err) {
+  } catch (err) {
     return next({
       log: `Cannot add comment to database Err: ${err}`,
       status: 400,
@@ -59,23 +61,23 @@ commentController.deleteComment = async (req, res, next) => {
     FROM Comments
     WHERE _id = $1
     `;
-    const { rows } = await db.query(sqlQuery,[id]);
+    const { rows } = await db.query(sqlQuery, [id]);
     console.log(rows[0].username);
-    if(rows[0].username === res.locals.username) { // check if the comment username is the same as the JWT
+    if (rows[0].username === res.locals.username) {
+      // check if the comment username is the same as the JWT
       const sqlQueryDeleteLike = `
       DELETE FROM Likes 
       WHERE comment_id = $1;
       `;
-      await db.query(sqlQueryDeleteLike,[id]);
+      await db.query(sqlQueryDeleteLike, [id]);
       const sqlQueryDeleteComment = `
       DELETE FROM Comments 
       WHERE _id = $1;
       `;
-      await db.query(sqlQueryDeleteComment,[id]);
+      await db.query(sqlQueryDeleteComment, [id]);
       next();
-    }
-    else return res.json('Not your comment to delete');
-  } catch(err) {
+    } else return res.json('Not your comment to delete');
+  } catch (err) {
     return next({
       log: `Cannot delete comment from database Err: ${err}`,
       status: 400,

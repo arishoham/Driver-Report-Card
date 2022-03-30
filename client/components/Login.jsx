@@ -1,7 +1,20 @@
-import React, {useEffect, useRef} from 'react';
-import {Box, Typography, TextField, Button, Card, CardContent} from '@mui/material';
+import React, { useEffect, useRef } from 'react';
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Card,
+  CardContent,
+} from '@mui/material';
 
-export default function Login({handleSubmitLogin, handleChangeUsername, handleChangePassword, status, setAccount}) {
+export default function Login({
+  handleSubmitLogin,
+  handleChangeUsername,
+  handleChangePassword,
+  status,
+  setAccount,
+}) {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
@@ -11,7 +24,7 @@ export default function Login({handleSubmitLogin, handleChangeUsername, handleCh
     };
   }, []);
 
-  const handleClickOutside = event => {
+  const handleClickOutside = (event) => {
     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
       setAccount('');
     }
@@ -25,10 +38,9 @@ export default function Login({handleSubmitLogin, handleChangeUsername, handleCh
         zIndex: 100,
         right: 20,
         top: 80,
-        maxWidth: 400
+        maxWidth: 400,
       }}
       ref={wrapperRef}
-      // onBlur={handleBlur}
     >
       <CardContent>
         <Box
@@ -49,7 +61,6 @@ export default function Login({handleSubmitLogin, handleChangeUsername, handleCh
             label="Username"
             name="Username"
             autoComplete="username"
-            // autoFocus
             onChange={handleChangeUsername}
           />
           <TextField
@@ -64,14 +75,10 @@ export default function Login({handleSubmitLogin, handleChangeUsername, handleCh
             onChange={handleChangePassword}
           />
           <div>{status}</div>
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-              Sign In
+          <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+            Sign In
           </Button>
-        </Box >
+        </Box>
       </CardContent>
     </Card>
   );
