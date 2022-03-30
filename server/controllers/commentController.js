@@ -62,7 +62,6 @@ commentController.deleteComment = async (req, res, next) => {
     WHERE _id = $1
     `;
     const { rows } = await db.query(sqlQuery, [id]);
-    console.log(rows[0].username);
     if (rows[0].username === res.locals.username) {
       // check if the comment username is the same as the JWT
       const sqlQueryDeleteLike = `

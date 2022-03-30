@@ -20,7 +20,4 @@ An app to comment on drivers based off their licesense plate.
 - Webpack
 - bCrypt
 - JWTs
-
-## Contriubution
-
-Please submit any pull requests you have!
+- SASS

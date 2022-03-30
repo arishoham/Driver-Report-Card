@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "playwright test",
     "build": "cross-env NODE_ENV=production webpack",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack-dev-server --open /\" \"cross-env NODE_ENV=development nodemon ./server/server.js\"",
-    "start": "nodemon ./server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./server/server.js"
   },
   "repository": {
     "type": "git",
@@ -41,6 +41,7 @@
     "@babel/core": "^7.17.2",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@playwright/test": "^1.20.1",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^7.0.0",
